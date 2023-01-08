@@ -59,4 +59,4 @@ En tant qu'entreprise :
     - Modifier son profil
     - Ajouter, supprimer, modifier une annonce
 
-Réalisé par Zielinski Lucas(@LucasZielinski) & Huret Théo(@Theohrt23).
+Projet Epitech réalisé par Zielinski Lucas(@LucasZielinski) & Huret Théo(@Theohrt23).
