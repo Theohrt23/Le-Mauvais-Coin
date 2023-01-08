@@ -34,7 +34,7 @@ spring.datasource.password=root   (mdp du user de votre BDD)
 
 4) Installer Angular avec la commande suivante 'npm install -g @angular/cli'
 
-5) Naviguer vers le dossier du projet avec la cmd (ex : cd Documents, cd GitHub, cd T-WEB-501-LIL-5-1-jobboard-lucas.zielinski)
+5) Naviguer vers le dossier du projet
 
 6) Installer les modules du projet avec la commande 'npm install'
 
