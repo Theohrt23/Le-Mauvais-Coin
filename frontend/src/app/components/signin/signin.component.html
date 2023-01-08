@@ -1,0 +1,25 @@
+<div id="alert_message"></div>
+<div class="flex">
+    <div class="box">
+        <form [formGroup]="signinForm" (ngSubmit)="loginUser()">
+            <div class="form">
+                <h2>Connexion</h2>
+                <div class="inputBox">
+                    <input type="text" formControlName="username" required>
+                    <span>Nom Utilisateur</span>
+                    <i></i>
+                </div>
+                <div class="inputBox">
+                    <input type="password" formControlName="password" required>
+                    <span>Mot de Passe</span>
+                    <i></i>
+                </div>
+                <div class="links">
+                    <a (click)="forgotPassword()">Mot de passe oublié?</a>
+                    <a routerLinkActive="active" routerLink="/sign-up">Inscription</a>
+                </div>
+                <input type="submit" value="Connexion">
+            </div>
+        </form>
+    </div>
+</div>

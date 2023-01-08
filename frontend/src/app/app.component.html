@@ -1,0 +1,85 @@
+<nav class="navbar navbar-dark navbar-expand-md" id="app-navbar">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="#">
+      <img src="../assets/img/mauvais.png" alt="logo_mauvais_coin">
+    </a>
+    <button data-bs-toggle="collapse" class="navbar-toggler" data-bs-target="#navcol-1"><span
+        class="visually-hidden">Toggle navigation</span><span class="navbar-toggler-icon"></span></button>
+    <div class="collapse navbar-collapse" id="navcol-1">
+      <ul class="navbar-nav ml-auto">
+        <li class="nav-item"><a class="nav-link active" href="#">Accueil</a></li>
+        <li class="nav-item"><a *ngIf="this.roleCheckService.isCompany" class="nav-link" routerLink="/my-offers">Vos
+            annonces</a></li>
+        <li class="nav-item"><a *ngIf="this.roleCheckService.isUser" routerLinkActive="active" routerLink="/user-profile"
+            class="nav-link">User profile</a>
+        </li>
+        <li class="nav-item"><a *ngIf="this.roleCheckService.isCompany" routerLinkActive="active" routerLink="/user-profile"
+          class="nav-link">User profile</a>
+      </li>
+        <li class="nav-item"><a *ngIf="this.roleCheckService.isAdmin" class="nav-link" routerLink="/admin">Panel Admin</a></li>
+        <li class="nav-item"><a class="nav-link" routerLinkActive="active" routerLink="/contact">Contact</a></li>
+      </ul>
+      <p class="ms-auto navbar-text actions">
+        <a *ngIf="!this.authService.isLoggedIn" class="btn text-secondary bg-white" routerLinkActive="active"
+          routerLink="/log-in">
+          Sign in
+        </a>
+      </p>
+      <a *ngIf="!this.authService.isLoggedIn" class="btn text-secondary bg-white ml-2 mb-3" routerLinkActive="active"
+        routerLink="/sign-up">
+        Sign up
+      </a>
+      <button (click)="logout()" *ngIf="this.authService.isLoggedIn" type="button" class="btn text-secondary bg-white">
+        Logout
+      </button>
+    </div>
+  </div>
+</nav>
+
+<body class="d-flex flex-column min-vh-100">
+  <router-outlet></router-outlet>
+</body>
+<footer id="footerpad" class="mt-auto">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-6 col-lg-8 mx-auto">
+        <ul class="list-inline text-center">
+          <li class="list-inline-item">
+            <a href="#">
+              <span class="fa-stack fa-lg" data-bss-hover-animate="pulse">
+                <i class="fa fa-circle fa-stack-2x"></i>
+                <i class="fa fa-facebook fa-stack-1x fa-inverse"></i>
+              </span>
+            </a>
+          </li>
+          <li class="list-inline-item">
+            <a href="#">
+              <span class="fa-stack fa-lg" data-bss-hover-animate="pulse">
+                <i class="fa fa-circle fa-stack-2x"></i>
+                <i class="fa fa-twitter fa-stack-1x fa-inverse"></i>
+              </span>
+            </a>
+          </li>
+          <li class="list-inline-item">
+            <a href="#">
+              <span class="fa-stack fa-lg" data-bss-hover-animate="pulse">
+                <i class="fa fa-circle fa-stack-2x"></i>
+                <i class="fa fa-instagram fa-stack-1x fa-inverse"></i>
+              </span>
+            </a>
+          </li>
+          <li class="list-inline-item">
+            <a href="#">
+              <span class="fa-stack fa-lg">
+                <i class="fa fa-circle fa-stack-2x"></i>
+                <i class="fa fa-linkedin fa-stack-1x fa-inverse"></i>
+              </span>
+            </a>
+          </li>
+        </ul>
+        <p class="copyright text-muted text-center">Copyright © Le Mauvais Coin 2022 | Web Design by Théo &
+          Lucas</p>
+      </div>
+    </div>
+  </div>
+</footer>

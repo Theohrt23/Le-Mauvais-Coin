@@ -1,0 +1,100 @@
+<div id="alert_message"></div>
+<div class="page">
+    <div class="row">
+        <div class="col-6 text-center">
+            <button type="button" class="btn btn-outline-success btn-lg m-5 btn-user" (click)="showUser()">Utilisateur</button>
+        </div>
+        <div class="col-6 text-center">
+            <button type="button" class="btn btn-outline-success btn-lg m-5"
+                (click)="showCompany();">Entreprise</button>
+        </div>
+    </div>
+    <div class="flex d-none" id="user_form">
+        <div class="box">
+            <form class="form-signin" [formGroup]="signupForm" (ngSubmit)="registerUser()">
+                <div class="form">
+                    <h2>Entrez vos informations personnels</h2>
+                    <div class="inputBox">
+                        <input type="text" formControlName="name" required>
+                        <span>Nom</span>
+                        <i></i>
+                    </div>
+                    <div class="inputBox">
+                        <input type="text" formControlName="surname" required>
+                        <span>Nom de famille</span>
+                        <i></i>
+                    </div>
+                    <div class="inputBox">
+                        <input type="text" formControlName="username" required>
+                        <span>Pseudo</span>
+                        <i></i>
+                    </div>
+                    <div class="inputBox">
+                        <input type="email" formControlName="mail" required>
+                        <span>Email</span>
+                        <i></i>
+                    </div>
+                    <div class="inputBox">
+                        <input type="password" formControlName="password" required>
+                        <span>Mot de passe</span>
+                        <i></i>
+                    </div>
+
+                    <input type="submit" value="Inscription">
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div class="flex d-none" id="company_form">
+        <div class="box_company">
+            <form class="form-signin" [formGroup]="companySignupForm" (ngSubmit)="registerCompany()">
+                <div class="form">
+                    <h2>Entrez vos informations personnels</h2>
+                    <div class="inputBox">
+                        <input type="text" formControlName="name" required>
+                        <span>Nom de l'entreprise</span>
+                        <i></i>
+                    </div>
+                    <div class="inputBox">
+                        <input type="text" formControlName="surname" required>
+                        <span>Nom du gérant du compte</span>
+                        <i></i>
+                    </div>
+                    <div class="inputBox">
+                        <input type="text" formControlName="username" required>
+                        <span>Pseudo</span>
+                        <i></i>
+                    </div>
+                    <div class="inputBox">
+                        <input type="email" formControlName="mail" required>
+                        <span>Email</span>
+                        <i></i>
+                    </div>
+                    <div class="inputBox">
+                        <input type="text" formControlName="address" required>
+                        <span>Adresse</span>
+                        <i></i>
+                    </div>
+                    <div class="inputBox">
+                        <input type="text" formControlName="city" required>
+                        <span>Ville</span>
+                        <i></i>
+                    </div>
+                    <div class="inputBox">
+                        <input type="text" formControlName="zip_code" required>
+                        <span>Code postale</span>
+                        <i></i>
+                    </div>
+                    <div class="inputBox">
+                        <input type="password" formControlName="password" required>
+                        <span>Mot de passe</span>
+                        <i></i>
+                    </div>
+
+                    <input type="submit" value="Inscription">
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,148 @@
+<div class="container mt-5 mb-5">
+    <div class="row mt-4">
+        <div class="col-sm-12 col-lg-6 col-xl-6 mt-3">
+            <div class="input-group"><input class="form-control autocomplete" type="text"
+                    placeholder="Entrez vos critères"><button class="btn btn-warning" type="button"><i
+                        class="fa fa-search"></i></button></div>
+        </div>
+        <div class="col-sm-12 col-lg-6 col-xl-6 mt-3">
+            <div class="input-group"><input class="form-control autocomplete" type="text"
+                    placeholder="Dans quelle ville ?"><button class="btn btn-warning" type="button"><i
+                        class="fa fa-search"></i></button></div>
+        </div>
+    </div>
+</div>
+<section>
+    <div id="alert_message"></div>
+    <div *ngIf="offers.length !== 0">
+        <div class="container mt-5 mb-5">
+            <div class="row">
+                <div class="col-auto col-sm-12 col-md-12 col-lg-4 col-xl-4" *ngFor="let offer of offers">
+                    <div class="bg-light border rounded shadow card" data-bss-hover-animate="pulse">
+                        <div class="card-body">
+                            <h3 class="card-title">{{ offer.title }}</h3>
+                            <h5 class="card-sub-title" *ngIf="offer.salary">{{ offer.salary }}</h5>
+                            <p class="card-text"></p>
+                            <p class="lorem">{{ offer.description }}</p>
+
+                            <div class="d-none lorem" id="offer{{ offer.id }}">
+                                <div>
+                                    <p *ngIf="offer.contract_type">Type de contrat : {{ offer.contract_type }}</p>
+                                    <p id="twy_offer{{ offer.id }}" class="d-none">Télétravail : Oui</p>
+                                    <p id="twn_offer{{ offer.id }}" class="d-none">Télétravail : Non</p>
+                                    <p *ngIf="offer.work_period">Période de travail : {{ offer.work_period }}</p>
+                                    <p *ngIf="offer.creation_date">Date de mise en ligne : {{ offer.creation_date }}</p>
+                                </div>
+                            </div>
+
+                            <button class="btn btn-outline-success" type="button"
+                                (click)="onSelect(offer.id,offer.teleworking)" id="lm_btn_offer{{ offer.id }}">
+                                Learn more
+                            </button>
+                            <button class="btn btn-outline-success d-none" type="button" id="ap_btn_offer{{ offer.id }}"
+                                data-bs-toggle="modal" [attr.data-bs-target]="'#offer_modal'+offer.id"
+                                (click)="loadUserProfile(); loadOffer(offer.id)">
+                                Postuler
+                            </button>
+                            <button class="btn btn-outline-success float-right d-none" type="button"
+                                id="btn_offer{{ offer.id }}" (click)="unselect(offer.id)">
+                                <i class="fa fa-times" aria-hidden="true"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Apply Modal -->
+                    <div class="modal fade" id="offer_modal{{offer.id}}" tabindex="-1"
+                        aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h1 class="modal-title fs-5" id="exampleModalLabel">Postuler pour {{offer.title}}
+                                    </h1>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                        aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <!-- Apply form for a non user -->
+                                    <form *ngIf="!this.authService.isLoggedIn" class="form-signin"
+                                        [formGroup]="applyForm" [attr.id]="'apply_form_non_user'+offer.id"
+                                        (ngSubmit)="apply()">
+                                        <div class="form">
+                                            <h2>Entrez vos informations personnels</h2>
+                                            <div class="mb-3">
+                                                <label class="form-label" for="name">Prénom</label>
+                                                <input *ngIf="currentUser" type="text" class="form-control"
+                                                    formControlName="name" id="name" [(ngModel)]="currentUser.name"
+                                                    required>
+                                            </div>
+                                            <div class="mb-3">
+                                                <label class="form-label" for="surname">Nom</label>
+                                                <input *ngIf="currentUser" type="text" class="form-control"
+                                                    formControlName="surname" id="surname"
+                                                    [(ngModel)]="currentUser.surname" required>
+                                            </div>
+                                            <div class="mb-3">
+                                                <label class="form-label" for="mail">Email</label>
+                                                <input *ngIf="currentUser" type="text" class="form-control"
+                                                    formControlName="mail" id="mail" [(ngModel)]="currentUser.mail"
+                                                    required>
+                                            </div>
+                                            <div class="mb-3">
+                                                <label class="form-label" for="body">Message</label>
+                                                <input type="text" class="form-control" formControlName="body" id="body"
+                                                    required>
+                                            </div>
+                                            <input type="hidden" formControlName="subject"
+                                                [(ngModel)]="currentOffer.title" required>
+                                            <input type="hidden" formControlName="offer_id"
+                                                [(ngModel)]="currentOffer.id" required>
+                                            <input type="submit" class="btn btn-primary" value="Postuler">
+                                        </div>
+                                    </form>
+
+                                    <!-- Apply form for a connected user -->
+                                    <form *ngIf="this.authService.isLoggedIn" class="form-signin"
+                                        [formGroup]="connectedApplyForm" [attr.id]="'apply_form_'+offer.id"
+                                        (ngSubmit)="userApply()">
+                                        <div class="form">
+                                            <h2>Entrez vos motivations</h2>
+                                            <div class="mb-3">
+                                                <label class="form-label" for="body">Message</label>
+                                                <textarea name="comment" formControlName="body"
+                                                    [attr.form]="'apply_form_'+offer.id">Enter text here...</textarea>
+                                            </div>
+                                            <input type="hidden" formControlName="subject"
+                                                [(ngModel)]="currentOffer.title" required>
+                                            <input type="hidden" formControlName="offer_id"
+                                                [(ngModel)]="currentOffer.id" required>
+                                            <input type="hidden" *ngIf="currentUser" formControlName="user_id"
+                                                [(ngModel)]="currentUser.id" required>
+                                            <input type="submit" class="btn btn-primary" value="Postuler">
+                                        </div>
+                                    </form>
+
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary"
+                                        data-bs-dismiss="modal">Close</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- End Modal -->
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div *ngIf="offers.length == 0">
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    Aucune annonces disponibles
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

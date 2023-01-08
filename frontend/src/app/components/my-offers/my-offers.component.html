@@ -1,0 +1,211 @@
+<div id="alert_message"></div>
+<div class="col-6 text-center">
+    <button type="button" class="btn btn-outline-success btn-lg m-5 btn-user" data-bs-toggle="modal"
+        data-bs-target="#create_offer_modal">
+        Ajouter une annonce
+    </button>
+</div>
+
+<!-- Create Offer Modal -->
+<div class="modal fade" id="create_offer_modal" tabindex="-1" aria-labelledby="modal" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5">Créer une annonce </h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form class="form-signin" id="create-form" [formGroup]="createOfferForm" (ngSubmit)="createOffer()">
+                    <div class="form">
+                        <h2>Entrez les informations de l'annonce</h2>
+                        <div class="mb-3">
+                            <label class="form-label" for="title">Titre</label>
+                            <input type="text" class="form-control" formControlName="title" id="title" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label" for="description">Description</label>
+                            <input type="text" class="form-control" formControlName="description" id="description"
+                                required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label" for="contract_type">Type de contrat</label>
+                            <input type="text" class="form-control" formControlName="contract_type" id="contract_type"
+                                required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label" for="salary">Salaire</label>
+                            <input type="text" class="form-control" formControlName="salary" id="salary" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label" for="work_period">Période de travail</label>
+                            <input type="text" class="form-control" formControlName="work_period" id="work_period"
+                                required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label" for="teleworking">Télétravail</label>
+                            <select class="custom-select mb-3" formControlName="teleworking" id="teleworking" required>
+                                <option>Veuillez sélectionner une valeur</option>
+                                <option value="true"> Oui </option>
+                                <option value="false"> Non </option>
+                            </select>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="submit" class="btn btn-primary" form="create-form">Créer l'annonce</button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- End Modal -->
+
+<section>
+
+    <div *ngIf="offers.length !== 0">
+        <div class="container mt-5 mb-5">
+            <div class="row">
+                <div class="col-auto col-sm-12 col-md-12 col-lg-4 col-xl-4" *ngFor="let offer of offers">
+                    <div class="bg-light border rounded shadow card" data-bss-hover-animate="pulse"
+                        [attr.id]="'card_offer_'+offer.id">
+                        <div class="card-body">
+                            <h3 class="card-title">{{ offer.title }}</h3>
+                            <h5 class="card-sub-title" *ngIf="offer.salary">{{ offer.salary }}</h5>
+                            <p class="card-text"></p>
+                            <p class="lorem">{{ offer.description }}</p>
+
+                            <div class="lorem" id="offer{{ offer.id }}">
+                                <p>Type de contrat : {{ offer.contract_type }}</p>
+                                <p>Période de travail : {{ offer.work_period }}</p>
+                                <p>Télétravail : {{ offer.teleworking }}</p>
+                                <p>Date de mise en ligne : {{ offer.creation_date }}</p>
+                            </div>
+                            <button class="btn btn-outline-success" type="button" data-bs-toggle="modal"
+                                [attr.data-bs-target]="'#offer_modal'+offer.id" (click)="loadOffer(offer.id)">
+                                Edit
+                            </button>
+                            <button class="btn btn-outline-success float-right" type="button" data-bs-toggle="modal"
+                                [attr.data-bs-target]="'#delete_offer_modal_'+offer.id">
+                                <i class="fa fa-times" aria-hidden="true"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Edit Offer Modal -->
+                    <div class="modal fade" id="offer_modal{{offer.id}}" tabindex="-1"
+                        aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h1 class="modal-title fs-5" id="exampleModalLabel">Postuler pour
+                                        {{currentOffer.title}}
+                                    </h1>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                        aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <form class="form-signin" [formGroup]="editOfferForm" (ngSubmit)="editOffer()"
+                                        [attr.id]="'edit_form_'+currentOffer.id">
+                                        <div class="form">
+                                            <h2>Entrez les informations de l'annonce</h2>
+                                            <input type="hidden" formControlName="id" [(ngModel)]="currentOffer.id"
+                                                required>
+                                            <div class="mb-3">
+                                                <label class="form-label" for="title">Titre</label>
+                                                <input type="text" class="form-control" [(ngModel)]="currentOffer.title"
+                                                    formControlName="title" id="title" required>
+                                            </div>
+                                            <div class="mb-3">
+                                                <label class="form-label" for="description">Description</label>
+                                                <input type="text" class="form-control"
+                                                    [(ngModel)]="currentOffer.description" formControlName="description"
+                                                    id="description" required>
+                                            </div>
+                                            <div class="mb-3">
+                                                <label class="form-label" for="contract_type">Type de contrat</label>
+                                                <input type="text" class="form-control"
+                                                    [(ngModel)]="currentOffer.contract_type"
+                                                    formControlName="contract_type" id="contract_type" required>
+                                            </div>
+                                            <div class="mb-3">
+                                                <label class="form-label" for="salary">Salaire</label>
+                                                <input type="text" class="form-control"
+                                                    [(ngModel)]="currentOffer.salary" formControlName="salary"
+                                                    id="salary" required>
+                                            </div>
+                                            <div class="mb-3">
+                                                <label class="form-label" for="work_period">Période de travail</label>
+                                                <input type="text" class="form-control"
+                                                    [(ngModel)]="currentOffer.work_period" formControlName="work_period"
+                                                    id="work_period" required>
+                                            </div>
+                                            <div class="mb-3">
+                                                <label class="form-label" for="teleworking">Télétravail</label>
+                                                <select class="custom-select mb-3"
+                                                    [(ngModel)]="currentOffer.teleworking" formControlName="teleworking"
+                                                    id="teleworking" required>
+                                                    <option>Veuillez sélectionner une valeur</option>
+                                                    <option value="true"> Oui </option>
+                                                    <option value="false"> Non </option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="submit" class="btn btn-primary"
+                                        [attr.form]="'edit_form_'+currentOffer.id">
+                                        Modifier l'annonce
+                                    </button>
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                                        Close
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- End Modal -->
+
+                    <!-- Delete Offer Modal -->
+                    <div class="modal fade" id="delete_offer_modal_{{offer.id}}" tabindex="-1"
+                        aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h1 class="modal-title fs-5" id="exampleModalLabel">Postuler pour
+                                        {{currentOffer.title}}
+                                    </h1>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                        aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    Voulez-vous vraiment supprimer l'annonce {{offer.title}} ?
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-danger"
+                                        (click)="deleteOffer(offer.id)">Supprimer</button>
+                                    <button type="button" class="btn btn-secondary"
+                                        data-bs-dismiss="modal">Close</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- End Modal -->
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div *ngIf="offers.length == 0">
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    Aucune annonces disponibles
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

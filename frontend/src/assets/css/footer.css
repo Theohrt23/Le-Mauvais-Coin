@@ -1,0 +1,10 @@
+#footerpad {
+    padding-top: 2rem;
+    padding-bottom: 2rem;
+    background: linear-gradient(120deg, #00e4d0, #5983e8);
+    color: #fff;
+}
+
+html body app-root footer#footerpad div.container div.row div.col-md-6.col-lg-8.mx-auto ul.list-inline.text-center li.list-inline-item a span.fa-stack.fa-lg {
+    color: #6c757d;
+}
